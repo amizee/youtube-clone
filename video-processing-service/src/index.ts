@@ -1,14 +1,19 @@
 import express from 'express';
-import { uploadProcessedVideo, downloadRawVideo, deleteRawVideo, deleteProcessedVideo, convertVideo, setupDirectories } from './storage';
 
+import { 
+  uploadProcessedVideo,
+  downloadRawVideo,
+  deleteRawVideo,
+  deleteProcessedVideo,
+  convertVideo,
+  setupDirectories
+} from './storage';
+
+// Create the local directories for videos
 setupDirectories();
 
 const app = express();
-app.use(express.json())
-
-app.get('/', (req, res) => {
-  res.status(200).send("Hello World!");
-})
+app.use(express.json());
 
 // Process a video file from Cloud Storage into 360p
 app.post('/process-video', async (req, res) => {
@@ -56,5 +61,5 @@ app.post('/process-video', async (req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+    console.log(`Server is running on port ${port}`);
 });

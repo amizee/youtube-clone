@@ -1,5 +1,5 @@
 # Stage 1: Build stage
-FROM node:18 AS builder
+FROM node:20-slim AS builder
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production stage
-FROM node:18
+FROM node:20-slim
 
 # Install ffmpeg in the container
 RUN apt-get update && apt-get install -y ffmpeg
@@ -29,7 +29,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install only production dependencies
-RUN npm install --only=production
+RUN npm install --omit=dev
 
 # Copy built app from the builder stage
 COPY --from=builder /app/dist ./dist
