@@ -10,7 +10,7 @@ initializeApp();
 const firestore = new Firestore();
 const storage = new Storage();
 
-const rawVideoBucketName = "k-yt-clone-raw-videos";
+const rawVideoBucketName = "  ";
 
 export const createUser = functions.auth.user().onCreate(async (user) => {
   const userInfo = {
@@ -48,4 +48,9 @@ export const generateUploadUrl = onCall({maxInstances: 1}, async (request) => {
   });
 
   return {url, fileName};
+});
+
+export const getVideos = onCall({maxInstances: 1}, async () => {
+  const querySnapshot = await firestore.collection("videos").limit(10).get();
+  return querySnapshot.docs.map((doc) => doc.data());
 });
